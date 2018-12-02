@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Platforms>AnyCPU;x86</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Clipp3r.Core.Common\Clipp3r.Core.Common.csproj" />
+    <ProjectReference Include="..\Clipp3r.Core.Dtos\Clipp3r.Core.Dtos.csproj" />
+    <ProjectReference Include="..\Clipp3r.Core.Entities\Clipp3r.Core.Entities.csproj" />
+  </ItemGroup>
+
+</Project>

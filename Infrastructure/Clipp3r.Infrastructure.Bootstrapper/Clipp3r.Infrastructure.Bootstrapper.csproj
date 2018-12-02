@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Platforms>AnyCPU;x86</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="External\ffmpeg.exe" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="External\ffmpeg.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.8.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\Clipp3r.Core.Common\Clipp3r.Core.Common.csproj" />
+    <ProjectReference Include="..\Persistence\Clipp3r.Infrastructure.EntityFramework\Clipp3r.Infrastructure.EntityFramework.csproj" />
+  </ItemGroup>
+
+</Project>

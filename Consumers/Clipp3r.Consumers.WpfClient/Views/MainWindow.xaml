@@ -1,0 +1,259 @@
+﻿<Window x:Class="Clipp3r.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="743.46" Width="1397"
+        DataContext="{Binding MainWindowViewModel, Source={StaticResource ServiceLocator}}">
+    <Grid>
+        <ListView ItemsSource="{Binding Videos}" 
+                 HorizontalAlignment="Left" 
+                 Width="285" 
+                 Margin="3,54,0,3"
+                 AllowDrop="True"
+                 SelectedItem="{Binding CurrentFilePath.Value}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Drop">
+                    <ei:CallMethodAction MethodName="ListView_Drop" TargetObject="{Binding }" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding DisplayText}"/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Grid Margin="293,3,427,59">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseWheel">
+                    <i:InvokeCommandAction Command="{Binding MediaPlayerViewModel.MouseWheelEventHandler}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <MediaElement Name="mediaPlayer" Grid.Row="1" LoadedBehavior="Manual" Stretch="None" Margin="0,0,10,0" />
+
+            <StatusBar Grid.Row="2" Margin="0,0,10,0">
+                <StatusBar.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                        </Grid>
+                    </ItemsPanelTemplate>
+                </StatusBar.ItemsPanel>
+                <StatusBarItem>
+                    <TextBlock Name="lblProgressStatus" Text="{Binding MediaPlayerViewModel.PositionDisplay.Value, Mode=OneWay}"></TextBlock>
+                </StatusBarItem>
+                <StatusBarItem Grid.Column="1" HorizontalContentAlignment="Stretch">
+                    <Slider Name="sliProgress" Value="{Binding MediaPlayerViewModel.CurrentPosition.Value, Mode=TwoWay}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseLeftButtonDown">
+                                <i:InvokeCommandAction Command="{Binding MediaPlayerViewModel.SliderDragStartedCommand}"/>
+                            </i:EventTrigger>
+                            <i:EventTrigger EventName="MouseLeftButtonUp">
+                                <i:InvokeCommandAction Command="{Binding MediaPlayerViewModel.SliderDragCompletedCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Slider>
+                </StatusBarItem>
+                <StatusBarItem Grid.Column="2">
+                    <ProgressBar Name="pbVolume" Width="50" Height="12" Maximum="1" Value="{Binding MediaPlayerViewModel.Volume.Value}" />
+                </StatusBarItem>
+            </StatusBar>
+        </Grid>
+        <StackPanel Orientation="Horizontal" Height="54" VerticalAlignment="Bottom" Margin="291,0,0,0" HorizontalAlignment="Left" Width="687">
+            <Button Content="Backward"
+                    Width="75" 
+                    Command="{Binding MediaPlayerViewModel.BackwardCommand}" 
+                    Margin="3"
+                BorderBrush="White" >
+                <Button.Effect>
+                    <DropShadowEffect Color="{DynamicResource DropShadowColour}" 
+                                      ShadowDepth="3"/>
+                </Button.Effect>
+            </Button>
+            <Button Content="Previous" 
+                    Width="75" 
+                    Margin="3"
+                BorderBrush="White" >
+                <Button.Effect>
+                    <DropShadowEffect Color="{DynamicResource DropShadowColour}" 
+                                      ShadowDepth="3"/>
+                </Button.Effect>
+            </Button>
+            <Button Content="Play" 
+                    Width="75" 
+                    Command="{Binding MediaPlayerViewModel.PlayCommand}"
+                    Margin="3"
+                BorderBrush="White" >
+                <Button.Effect>
+                    <DropShadowEffect Color="{DynamicResource DropShadowColour}" 
+                                      ShadowDepth="3"/>
+                </Button.Effect>
+            </Button>
+            <Button Content="Pause" 
+                    Width="75" 
+                    Command="{Binding MediaPlayerViewModel.PauseCommand}"
+                    Margin="3"
+                BorderBrush="White" >
+                <Button.Effect>
+                    <DropShadowEffect Color="{DynamicResource DropShadowColour}" 
+                                      ShadowDepth="3"/>
+                </Button.Effect>
+            </Button>
+            <Button Content="Stop" 
+                    Width="75" 
+                    Command="{Binding MediaPlayerViewModel.StopCommand}"
+                    Margin="3"
+                BorderBrush="White" >
+                <Button.Effect>
+                    <DropShadowEffect Color="{DynamicResource DropShadowColour}" 
+                                      ShadowDepth="3"/>
+                </Button.Effect>
+            </Button>
+            <Button Content="Next" 
+                    Width="75" 
+                    Margin="3"
+                BorderBrush="White" >
+                <Button.Effect>
+                    <DropShadowEffect Color="{DynamicResource DropShadowColour}" 
+                                      ShadowDepth="3"/>
+                </Button.Effect>
+            </Button>
+            <Button Content="Forward" 
+                    Width="75" 
+                    Command="{Binding MediaPlayerViewModel.ForwardCommand}" 
+                    Margin="3"
+                BorderBrush="White" >
+                <Button.Effect>
+                    <DropShadowEffect Color="{DynamicResource DropShadowColour}" 
+                                      ShadowDepth="3"/>
+                </Button.Effect>
+            </Button>
+            <Label Content="Adjuster:" VerticalContentAlignment="Center"/>
+            <TextBox Text="{Binding MediaPlayerViewModel.Adjuster, Mode=TwoWay}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="35" Margin="3"/>
+        </StackPanel>
+        <ScrollViewer Margin="0,54,215,60" VerticalScrollBarVisibility="Auto" HorizontalAlignment="Right" Width="207">
+            <ItemsControl ItemsSource="{Binding VideoMomentList}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button 
+                            Content="{Binding VideoMomentName}" 
+                            Command="{Binding SaveVideoMomentCommand}"
+                            CommandParameter="{Binding Path=DataContext.VideoMomentCapture, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                            BorderBrush="White" >
+                            <Button.Effect>
+                                <DropShadowEffect Color="{DynamicResource DropShadowColour}" 
+                                      ShadowDepth="3"/>
+                            </Button.Effect>
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+        <Label  Margin="0,16,3,0" Content="Captured Moments" HorizontalContentAlignment="Center" Height="26" VerticalAlignment="Top" HorizontalAlignment="Right" Width="207"/>
+        <ScrollViewer  Margin="0,54,3,3" VerticalScrollBarVisibility="Auto" HorizontalAlignment="Right" Width="207">
+            <ItemsControl ItemsSource="{Binding VideoMomentCaptureList}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button Content="{Binding VideoMomentName}" 
+                                Command="{Binding LoadVideoMomentCaptureCommand}"
+                                BorderBrush="White" >
+                            <Button.Effect>
+                                <DropShadowEffect Color="{DynamicResource DropShadowColour}" 
+                                      ShadowDepth="3"/>
+                            </Button.Effect>
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+        <Button Content="Open"
+                HorizontalAlignment="Left" 
+                VerticalAlignment="Top" 
+                Width="140" Height="46"
+                Command="{Binding OpenFileCommand}" 
+                Margin="3,3,0,0"
+                BorderBrush="White" >
+            <Button.Effect>
+                <DropShadowEffect Color="{DynamicResource DropShadowColour}" 
+                                      ShadowDepth="3"/>
+            </Button.Effect>
+        </Button>
+        <TextBox Margin="0,3,295,0" 
+                 TextWrapping="Wrap" 
+                 VerticalAlignment="Top" 
+                 Height="46"  
+                 VerticalContentAlignment="Center"
+                 HorizontalContentAlignment="Center"
+                 Text="{Binding NewVideoMomentName}" 
+                 HorizontalAlignment="Right"
+                 Width="127"
+                BorderBrush="White" >
+
+            <TextBox.Effect>
+                <DropShadowEffect Color="{DynamicResource DropShadowColour}" 
+                                      ShadowDepth="3"/>
+            </TextBox.Effect>
+        </TextBox>
+        <Button Content="Add Moment" 
+                Margin="0,12,215,0" 
+                VerticalAlignment="Top" 
+                Height="28" 
+                Command="{Binding AddCodeCommand}" 
+                HorizontalAlignment="Right" 
+                Width="75"
+                BorderBrush="White" >
+            <Button.Effect>
+                <DropShadowEffect Color="{DynamicResource DropShadowColour}" 
+                                      ShadowDepth="3"/>
+            </Button.Effect>
+        </Button>
+        <Button Content="Clip ->"
+                Margin="0,0,215,3" 
+                Height="51" 
+                VerticalAlignment="Bottom"
+                Command="{Binding ClipVideoCommand}" 
+                HorizontalAlignment="Right" Width="207"
+                BorderBrush="White"  >
+            <Button.Effect>
+                <DropShadowEffect Color="{DynamicResource DropShadowColour}" 
+                                      ShadowDepth="3"/>
+            </Button.Effect>
+        </Button>
+        <Button Content="Preview"
+                HorizontalAlignment="Left" 
+                VerticalAlignment="Top" 
+                Width="138" Height="46"
+                Command="{Binding PreviewFileCommand}" 
+                Margin="150,3,0,0" 
+                IsEnabled="{Binding AbleToLoadViewPreview.Value}"
+                BorderBrush="White"  >
+            <Button.Effect>
+                <DropShadowEffect Color="{DynamicResource DropShadowColour}" 
+                                      ShadowDepth="3"/>
+            </Button.Effect>
+        </Button>
+    </Grid>
+</Window>
