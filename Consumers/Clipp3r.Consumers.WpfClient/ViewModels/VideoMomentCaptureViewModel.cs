@@ -17,7 +17,8 @@ namespace Clipp3r.ViewModels
 
         public VideoMomentCaptureViewModel()
         {
-            LoadVideoMomentCaptureCommand = new Command((o) => CpaturedVideoMomentClicked(VideoMomentCaptureTime));
+            LoadVideoMomentCaptureCommand = new Command(
+                (o) => CpaturedVideoMomentClicked(VideoMomentCaptureTime));
         }
 
         public VideoMomentCaptureViewModel(VideoMomentCaptureDto videoMomentDto) : this()

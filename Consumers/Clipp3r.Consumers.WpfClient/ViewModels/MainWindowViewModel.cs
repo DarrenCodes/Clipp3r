@@ -116,7 +116,9 @@ namespace Clipp3r.ViewModels
                     AddVideoMomentToView(videoMomentCaptureDto);
                     videoMetadata.VideoMomentCaptureList.Add(videoMomentCaptureDto);
                 };
-                VideoMomentList.Add(codeViewModel);
+                int elementIndex = SortedListHelper.GetNewElementIndex(
+                    VideoMomentList, codeViewModel, x => x.VideoMomentName);
+                VideoMomentList.Insert(elementIndex, codeViewModel);
             }
         }
 
@@ -187,7 +189,10 @@ namespace Clipp3r.ViewModels
             VideoMomentViewModel codeViewModel = scope.GetRequiredService<VideoMomentViewModel>();
             codeViewModel.LoadVideoMoment(videoMoment);
             codeViewModel.NewVideoMomentCaptureEvent += AddVideoMomentToView;
-            VideoMomentList.Add(codeViewModel);
+
+            int elementIndex = SortedListHelper.GetNewElementIndex(
+                VideoMomentList, codeViewModel, x => x.VideoMomentName);
+            VideoMomentList.Insert(elementIndex, codeViewModel);
         }
         private FilePathPair GetFilePathPair(string filePath)
         {
